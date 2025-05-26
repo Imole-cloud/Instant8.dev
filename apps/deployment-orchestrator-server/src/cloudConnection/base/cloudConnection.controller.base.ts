@@ -22,6 +22,8 @@ import { CloudConnection } from "./CloudConnection";
 import { CloudConnectionFindManyArgs } from "./CloudConnectionFindManyArgs";
 import { CloudConnectionWhereUniqueInput } from "./CloudConnectionWhereUniqueInput";
 import { CloudConnectionUpdateInput } from "./CloudConnectionUpdateInput";
+import { CloudCredentialsInput } from "../CloudCredentialsInput";
+import { CloudCredentialsValidation } from "../CloudCredentialsValidation";
 
 export class CloudConnectionControllerBase {
   constructor(protected readonly service: CloudConnectionService) {}
@@ -190,5 +192,22 @@ export class CloudConnectionControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Post("/validate-credentials")
+  @swagger.ApiOkResponse({
+    type: CloudCredentialsValidation,
+  })
+  @swagger.ApiNotFoundResponse({
+    type: errors.NotFoundException,
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
+  async ValidateCloudCredentials(
+    @common.Body()
+    body: CloudCredentialsInput
+  ): Promise<CloudCredentialsValidation> {
+    return this.service.ValidateCloudCredentials(body);
   }
 }

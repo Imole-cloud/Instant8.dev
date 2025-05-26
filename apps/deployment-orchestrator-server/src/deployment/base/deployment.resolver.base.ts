@@ -23,6 +23,10 @@ import { DeleteDeploymentArgs } from "./DeleteDeploymentArgs";
 import { PromptHandlerFindManyArgs } from "../../promptHandler/base/PromptHandlerFindManyArgs";
 import { PromptHandler } from "../../promptHandler/base/PromptHandler";
 import { UserProfile } from "../../userProfile/base/UserProfile";
+import { StartDeploymentInput } from "../StartDeploymentInput";
+import { StartDeploymentResult } from "../StartDeploymentResult";
+import { SyncStatusInput } from "../SyncStatusInput";
+import { SyncStatusResult } from "../SyncStatusResult";
 import { DeploymentService } from "../deployment.service";
 @graphql.Resolver(() => Deployment)
 export class DeploymentResolverBase {
@@ -143,5 +147,21 @@ export class DeploymentResolverBase {
       return null;
     }
     return result;
+  }
+
+  @graphql.Mutation(() => StartDeploymentResult)
+  async StartDeployment(
+    @graphql.Args()
+    args: StartDeploymentInput
+  ): Promise<StartDeploymentResult> {
+    return this.service.StartDeployment(args);
+  }
+
+  @graphql.Mutation(() => SyncStatusResult)
+  async SyncDeploymentStatus(
+    @graphql.Args()
+    args: SyncStatusInput
+  ): Promise<SyncStatusResult> {
+    return this.service.SyncDeploymentStatus(args);
   }
 }

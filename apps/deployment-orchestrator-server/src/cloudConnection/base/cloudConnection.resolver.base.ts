@@ -21,6 +21,8 @@ import { CreateCloudConnectionArgs } from "./CreateCloudConnectionArgs";
 import { UpdateCloudConnectionArgs } from "./UpdateCloudConnectionArgs";
 import { DeleteCloudConnectionArgs } from "./DeleteCloudConnectionArgs";
 import { UserProfile } from "../../userProfile/base/UserProfile";
+import { CloudCredentialsInput } from "../CloudCredentialsInput";
+import { CloudCredentialsValidation } from "../CloudCredentialsValidation";
 import { CloudConnectionService } from "../cloudConnection.service";
 @graphql.Resolver(() => CloudConnection)
 export class CloudConnectionResolverBase {
@@ -127,5 +129,13 @@ export class CloudConnectionResolverBase {
       return null;
     }
     return result;
+  }
+
+  @graphql.Mutation(() => CloudCredentialsValidation)
+  async ValidateCloudCredentials(
+    @graphql.Args()
+    args: CloudCredentialsInput
+  ): Promise<CloudCredentialsValidation> {
+    return this.service.ValidateCloudCredentials(args);
   }
 }

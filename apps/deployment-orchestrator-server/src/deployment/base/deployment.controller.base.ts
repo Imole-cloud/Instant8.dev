@@ -25,6 +25,10 @@ import { DeploymentUpdateInput } from "./DeploymentUpdateInput";
 import { PromptHandlerFindManyArgs } from "../../promptHandler/base/PromptHandlerFindManyArgs";
 import { PromptHandler } from "../../promptHandler/base/PromptHandler";
 import { PromptHandlerWhereUniqueInput } from "../../promptHandler/base/PromptHandlerWhereUniqueInput";
+import { StartDeploymentInput } from "../StartDeploymentInput";
+import { StartDeploymentResult } from "../StartDeploymentResult";
+import { SyncStatusInput } from "../SyncStatusInput";
+import { SyncStatusResult } from "../SyncStatusResult";
 
 export class DeploymentControllerBase {
   constructor(protected readonly service: DeploymentService) {}
@@ -291,5 +295,39 @@ export class DeploymentControllerBase {
       data,
       select: { id: true },
     });
+  }
+
+  @common.Post("/start")
+  @swagger.ApiOkResponse({
+    type: StartDeploymentResult,
+  })
+  @swagger.ApiNotFoundResponse({
+    type: errors.NotFoundException,
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
+  async StartDeployment(
+    @common.Body()
+    body: StartDeploymentInput
+  ): Promise<StartDeploymentResult> {
+    return this.service.StartDeployment(body);
+  }
+
+  @common.Post("/sync-status")
+  @swagger.ApiOkResponse({
+    type: SyncStatusResult,
+  })
+  @swagger.ApiNotFoundResponse({
+    type: errors.NotFoundException,
+  })
+  @swagger.ApiForbiddenResponse({
+    type: errors.ForbiddenException,
+  })
+  async SyncDeploymentStatus(
+    @common.Body()
+    body: SyncStatusInput
+  ): Promise<SyncStatusResult> {
+    return this.service.SyncDeploymentStatus(body);
   }
 }

@@ -18,6 +18,11 @@ import {
   UserProfile as PrismaUserProfile,
 } from "@prisma/client";
 
+import { StartDeploymentInput } from "../StartDeploymentInput";
+import { StartDeploymentResult } from "../StartDeploymentResult";
+import { SyncStatusInput } from "../SyncStatusInput";
+import { SyncStatusResult } from "../SyncStatusResult";
+
 export class DeploymentServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
 
@@ -70,5 +75,13 @@ export class DeploymentServiceBase {
         where: { id: parentId },
       })
       .userProfile();
+  }
+  async StartDeployment(
+    args: StartDeploymentInput
+  ): Promise<StartDeploymentResult> {
+    throw new Error("Not implemented");
+  }
+  async SyncDeploymentStatus(args: SyncStatusInput): Promise<SyncStatusResult> {
+    throw new Error("Not implemented");
   }
 }

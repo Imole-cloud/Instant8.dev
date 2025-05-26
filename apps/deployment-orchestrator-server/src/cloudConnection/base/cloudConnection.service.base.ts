@@ -17,6 +17,9 @@ import {
   UserProfile as PrismaUserProfile,
 } from "@prisma/client";
 
+import { CloudCredentialsInput } from "../CloudCredentialsInput";
+import { CloudCredentialsValidation } from "../CloudCredentialsValidation";
+
 export class CloudConnectionServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
 
@@ -58,5 +61,10 @@ export class CloudConnectionServiceBase {
         where: { id: parentId },
       })
       .userProfile();
+  }
+  async ValidateCloudCredentials(
+    args: CloudCredentialsInput
+  ): Promise<CloudCredentialsValidation> {
+    throw new Error("Not implemented");
   }
 }
