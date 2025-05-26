@@ -6,3 +6,73 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model AzureConnection {
+  clientId       String?
+  clientSecret   String?
+  createdAt      DateTime @default(now())
+  id             String   @id @default(cuid())
+  region         String?
+  subscriptionId String?
+  tenantId       String?
+  updatedAt      DateTime @updatedAt
+  userProfile    String?
+}
+
+model AwsConnection {
+  accessKeyId     String?
+  createdAt       DateTime @default(now())
+  id              String   @id @default(cuid())
+  region          String?
+  secretAccessKey String?
+  sessionToken    String?
+  updatedAt       DateTime @updatedAt
+  userProfile     String?
+}
+
+model GcpConnection {
+  createdAt          DateTime @default(now())
+  id                 String   @id @default(cuid())
+  projectId          String?
+  region             String?
+  serviceAccountJson String?
+  updatedAt          DateTime @updatedAt
+  userProfile        String?
+}
+
+model InstanceTemplate {
+  cpu       Int?
+  createdAt DateTime @default(now())
+  hasGpu    Boolean?
+  id        String   @id @default(cuid())
+  memoryGb  Int?
+  name      String?
+  provider  String?
+  region    Region?  @relation(fields: [regionId], references: [id])
+  regionId  String?
+  storageGb Int?
+  updatedAt DateTime @updatedAt
+}
+
+model ProviderLog {
+  action      String?
+  createdAt   DateTime  @default(now())
+  id          String    @id @default(cuid())
+  provider    String?
+  request     Json?
+  response    Json?
+  status      String?
+  timestamp   DateTime?
+  updatedAt   DateTime  @updatedAt
+  userProfile String?
+}
+
+model Region {
+  createdAt         DateTime           @default(now())
+  description       String?
+  id                String             @id @default(cuid())
+  instanceTemplates InstanceTemplate[]
+  name              String?
+  provider          String?
+  updatedAt         DateTime           @updatedAt
+}

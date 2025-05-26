@@ -1,4 +1,10 @@
 import { Module } from "@nestjs/common";
+import { AzureConnectionModule } from "./azureConnection/azureConnection.module";
+import { AwsConnectionModule } from "./awsConnection/awsConnection.module";
+import { GcpConnectionModule } from "./gcpConnection/gcpConnection.module";
+import { InstanceTemplateModule } from "./instanceTemplate/instanceTemplate.module";
+import { ProviderLogModule } from "./providerLog/providerLog.module";
+import { RegionModule } from "./region/region.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -11,6 +17,12 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 @Module({
   controllers: [],
   imports: [
+    AzureConnectionModule,
+    AwsConnectionModule,
+    GcpConnectionModule,
+    InstanceTemplateModule,
+    ProviderLogModule,
+    RegionModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,
