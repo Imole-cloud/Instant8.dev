@@ -1,0 +1,75 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Deployment {
+  autoTerminateAt DateTime?
+  createdAt       DateTime              @default(now())
+  environment     String?
+  id              String                @id @default(cuid())
+  promptHandlers  PromptHandler[]
+  region          String?
+  requestPrompt   String?
+  resolvedConfig  Json?
+  status          EnumDeploymentStatus?
+  updatedAt       DateTime              @updatedAt
+  userProfile     UserProfile?          @relation(fields: [userProfileId], references: [id])
+  userProfileId   String?
+}
+
+model PromptHandler {
+  createdAt          DateTime         @default(now())
+  deployment         Deployment?      @relation(fields: [deploymentId], references: [id])
+  deploymentId       String?
+  detectedOs         String?
+  id                 String           @id @default(cuid())
+  inputPrompt        String?
+  llmIntegrations    LlmIntegration[]
+  parsedInstructions Json?
+  resourcesRequested Json?
+  updatedAt          DateTime         @updatedAt
+}
+
+model CloudConnection {
+  accessKey     String?
+  createdAt     DateTime     @default(now())
+  id            String       @id @default(cuid())
+  provider      String?
+  region        String?
+  updatedAt     DateTime     @updatedAt
+  userProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+  userProfileId String?
+}
+
+model UserProfile {
+  cloudConnections CloudConnection[]
+  createdAt        DateTime          @default(now())
+  deployments      Deployment[]
+  email            String?
+  id               String            @id @default(cuid())
+  name             String?
+  role             String?
+  sshKey           String?
+  updatedAt        DateTime          @updatedAt
+}
+
+model LlmIntegration {
+  apiEndpoint     String?
+  apiKeyName      String?
+  createdAt       DateTime       @default(now())
+  id              String         @id @default(cuid())
+  modelUsed       String?
+  promptHandler   PromptHandler? @relation(fields: [promptHandlerId], references: [id])
+  promptHandlerId String?
+  provider        String?
+  updatedAt       DateTime       @updatedAt
+}
+
+enum EnumDeploymentStatus {
+  Option1
+}
