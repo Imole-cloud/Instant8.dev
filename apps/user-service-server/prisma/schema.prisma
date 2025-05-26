@@ -6,3 +6,29 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model Role {
+  createdAt   DateTime @default(now())
+  id          String   @id @default(cuid())
+  name        String?
+  permissions Json?
+  updatedAt   DateTime @updatedAt
+}
+
+model ApiKey {
+  apiKey      String?
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime?
+  id          String    @id @default(cuid())
+  updatedAt   DateTime  @updatedAt
+  userProfile String?
+}
+
+model Session {
+  createdAt   DateTime  @default(now())
+  expiresAt   DateTime?
+  id          String    @id @default(cuid())
+  token       String?
+  updatedAt   DateTime  @updatedAt
+  userProfile String?
+}
