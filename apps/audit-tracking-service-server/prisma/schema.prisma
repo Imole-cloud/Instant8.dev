@@ -6,3 +6,36 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model DeploymentStatusHistory {
+  createdAt  DateTime  @default(now())
+  deployment String?
+  details    String?
+  id         String    @id @default(cuid())
+  status     String?
+  timestamp  DateTime?
+  updatedAt  DateTime  @updatedAt
+}
+
+model ResourceTag {
+  createdAt    DateTime @default(now())
+  id           String   @id @default(cuid())
+  key          String?
+  resourceId   String?
+  resourceType String?
+  updatedAt    DateTime @updatedAt
+  value        String?
+}
+
+model AuditLog {
+  action      String?
+  createdAt   DateTime  @default(now())
+  details     Json?
+  entity      String?
+  entityId    String?
+  id          String    @id @default(cuid())
+  status      String?
+  timestamp   DateTime?
+  updatedAt   DateTime  @updatedAt
+  userProfile String?
+}
