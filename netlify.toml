@@ -1,0 +1,28 @@
+# Netlify configuration file
+
+# Build settings
+[build]
+  # Directory to publish (relative to root of your repo)
+  publish = "apps/frontend/dist"
+  
+  # Default build command
+  command = "cd apps/frontend && npm install && npm run build"
+
+# Redirects and rewrites
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Environment variables
+[build.environment]
+  NODE_VERSION = "18"
+
+# Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
